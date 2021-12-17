@@ -36,6 +36,22 @@ void mtkStringInitSub(MtkString *s, const MtkString *other, int startIndex, int 
   s->data[s->length] = '\0';
 }
 
+
+void mtkStringInitConcat(MtkString *s, const MtkString *s1, const MtkString *s2) {
+  s->length = s1->length + s2->length;
+  s->data = malloc(s->length + 1);
+  memcpy(s->data, s1->data, s1->length);
+  memcpy(s->data + s1->length, s2->data, s2->length);
+  s->data[s->length] = '\0';
+}
+
+void mtkStringConcat(MtkString *s, const MtkString *other) {
+  s->data = realloc(s->data, s->length + other->length + 1);
+  memcpy(s->data + s->length, other->data, other->length);
+  s->length += other->length;
+  s->data[s->length] = '\0';
+}
+
 bool mtkStringEquals(const MtkString *s1, const MtkString *s2) {
   unsigned int i;
   if (s1->length != s2->length)

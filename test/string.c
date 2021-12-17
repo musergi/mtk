@@ -7,6 +7,7 @@ int main() {
   MtkString string;
   MtkString copy;
   MtkString subString, subStringVerification;
+  MtkString catString1, catString2, totalString;
 
   mtkStringInit(&string, "HelloWorld");
   assert(string.length == 10);
@@ -34,6 +35,22 @@ int main() {
   assert(mtkStringEquals(&subString, &subStringVerification));
   mtkStringUninit(&subString);
   mtkStringUninit(&subStringVerification);
+
+  /* Concat */
+  mtkStringInit(&catString1, "Hello");
+  mtkStringInit(&catString2, "World");
+  mtkStringInitConcat(&totalString, &catString1, &catString2);
+  assert(mtkStringEquals(&totalString, &string));
+  mtkStringUninit(&totalString);
+  mtkStringUninit(&catString1);
+  mtkStringUninit(&catString2);
+
+  mtkStringInit(&catString1, "Hello");
+  mtkStringInit(&catString2, "World");
+  mtkStringConcat(&catString1, &catString2);
+  assert(mtkStringEquals(&catString1, &string));
+  mtkStringUninit(&catString1);
+  mtkStringUninit(&catString2);
 
   mtkStringUninit(&string);
   assert(string.length == 0);
