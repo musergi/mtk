@@ -28,7 +28,13 @@ int main() {
   assert(mtkStringEquals(&subString, &subStringVerification));
   mtkStringUninit(&subString);
   mtkStringUninit(&subStringVerification);
-  
+
+  mtkStringInitSub(&subString, &string, -5, 0);
+  mtkStringInit(&subStringVerification, "World");
+  assert(mtkStringEquals(&subString, &subStringVerification));
+  mtkStringUninit(&subString);
+  mtkStringUninit(&subStringVerification);
+
   mtkStringUninit(&string);
   assert(string.length == 0);
   assert(string.data == NULL);

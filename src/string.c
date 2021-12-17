@@ -27,9 +27,12 @@ void mtkStringInitSub(MtkString *s, const MtkString *other, int startIndex, int 
   } else {
     parsedEndIndex = endIndex;
   }
+  if (parsedEndIndex == 0) {
+    parsedEndIndex = other->length;
+  }
   s->length = parsedEndIndex - parsedStartIndex;
   s->data = (char *)malloc(s->length + 1);
-  memcpy(s->data, other->data + startIndex, s->length);
+  memcpy(s->data, other->data + parsedStartIndex, s->length);
   s->data[s->length] = '\0';
 }
 
