@@ -3,21 +3,43 @@
 #include <assert.h>
 #include <stdlib.h>
 
-int main() {
-  MtkString string;
-  MtkString copy;
-  MtkString subString, subStringVerification;
-  MtkString catString1, catString2, totalString;
+void test_lifetime();
+void test_copy();
+void test_substring();
+void test_concat();
 
+int main() {
+  test_lifetime();
+  test_copy();
+  test_substring();
+  test_concat();
+  return 0;
+}
+
+void test_lifetime() {
+  MtkString string;
   mtkStringInit(&string, "HelloWorld");
   assert(string.length == 10);
 
+  mtkStringUninit(&string);
+  assert(string.length == 0);
+  assert(string.data == NULL);
+}
+
+void test_copy() {
+  MtkString string, copy;
+  mtkStringInit(&string, "HelloWorld");
   mtkStringInitCopy(&copy, &string);
   assert(string.length == copy.length);
   assert(mtkStringEquals(&string, &copy));
+  mtkStringUninit(&string);
   mtkStringUninit(&copy);
+}
 
-  /* Substring */
+void test_substring() {
+  MtkString string, subString, subStringVerification;
+  mtkStringInit(&string, "HelloWorld");
+
   mtkStringInitSub(&subString, &string, 0, 5);
   mtkStringInit(&subStringVerification, "Hello");
   assert(mtkStringEquals(&subString, &subStringVerification));
@@ -36,7 +58,13 @@ int main() {
   mtkStringUninit(&subString);
   mtkStringUninit(&subStringVerification);
 
-  /* Concat */
+  mtkStringUninit(&string);
+}
+
+void test_concat() {
+  MtkString string, catString1, catString2, totalString;
+  mtkStringInit(&string, "HelloWorld");
+
   mtkStringInit(&catString1, "Hello");
   mtkStringInit(&catString2, "World");
   mtkStringInitConcat(&totalString, &catString1, &catString2);
@@ -53,8 +81,4 @@ int main() {
   mtkStringUninit(&catString2);
 
   mtkStringUninit(&string);
-  assert(string.length == 0);
-  assert(string.data == NULL);
-
-  return 0;
 }
