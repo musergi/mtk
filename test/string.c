@@ -1,4 +1,4 @@
-#include "mtk/string.h"
+#include "mtk/mtk.h"
 
 #include <assert.h>
 #include <stdlib.h>
